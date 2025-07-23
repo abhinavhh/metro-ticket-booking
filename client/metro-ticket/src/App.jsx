@@ -421,10 +421,10 @@ const StationExit = () => {
         <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-md">
           <h3 className="font-semibold mb-2 text-green-800">Exit Successful!</h3>
           <div className="space-y-1 text-sm">
-            <p><strong>Ticket ID:</strong> {result.ticketId}</p>
-            <p><strong>Status:</strong> {result.status}</p>
-            <p><strong>Exit Time:</strong> {new Date(result.exitTime).toLocaleString()}</p>
-            <p><strong>Journey Completed:</strong> {result.fromStation} → {result.toStation}</p>
+            <p><strong>Ticket ID:</strong> {result.ticket.ticketId}</p>
+            <p><strong>Status:</strong> {result.ticket.status}</p>
+            <p><strong>Exit Time:</strong> {new Date(result.ticket.exitTime).toLocaleString()}</p>
+            <p><strong>Journey Completed:</strong> {result.ticket.fromStation} → {result.toStation}</p>
           </div>
           <button
             onClick={resetForm}
