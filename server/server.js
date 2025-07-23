@@ -22,7 +22,7 @@ app.use('/api/tickets', bookTicketRouter)
 
 app.use('/api/tickets', enterStation)
 
-app.use('api/tickets', exitStationRouter)
+app.use('/api/tickets', exitStationRouter)
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

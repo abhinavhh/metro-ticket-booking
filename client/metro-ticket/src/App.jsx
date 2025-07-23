@@ -429,7 +429,7 @@ const StationExit = () => {
             <p><strong>Ticket ID:</strong> {result.ticket.ticketId}</p>
             <p><strong>Status:</strong> {result.ticket.status}</p>
             <p><strong>Exit Time:</strong> {new Date(result.ticket.exitTime).toLocaleString()}</p>
-            <p><strong>Journey Completed:</strong> {result.ticket.fromStation} → {result.toStation}</p>
+            <p><strong>Journey Completed:</strong> {result.ticket.fromStation} → {result.ticket.toStation}</p>
           </div>
           <button
             onClick={resetForm}
