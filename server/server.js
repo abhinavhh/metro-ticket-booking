@@ -5,6 +5,7 @@ import stations from './routes/stations.js';
 import calculatePrice from './routes/calculateprice.js';
 import bookTicketRouter from './routes/bookticket.js';
 import enterStation from './routes/enterStation.js';
+import exitStationRouter from './routes/exitStation.js';
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -20,6 +21,8 @@ app.use('/api/tickets', calculatePrice)
 app.use('/api/tickets', bookTicketRouter)
 
 app.use('/api/tickets', enterStation)
+
+app.use('api/tickets', exitStationRouter)
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

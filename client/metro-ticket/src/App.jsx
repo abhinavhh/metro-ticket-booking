@@ -354,7 +354,12 @@ const StationExit = () => {
       setLoading(true);
       setError('');
       const response = await ticketService.exitStation(ticketId, stationName);
-      setResult(response);
+      if (response.error) {
+        setError(response.error);
+        setResult(null);
+      } else {
+        setResult(response);
+      }
     } catch (error) {
       console.error('Error exiting station:', error);
       setError('Error: ' + error.message);
