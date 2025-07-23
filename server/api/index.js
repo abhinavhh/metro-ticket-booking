@@ -14,9 +14,6 @@ app.use(express.json());
 // const PORT = 5000;
 
 connectDB();
-app.use('/', (req, res) => {
-    res.send('Metro Ticket System API');
-});
 
 app.use('/api', stations);
 
