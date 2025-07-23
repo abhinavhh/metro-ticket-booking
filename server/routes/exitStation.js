@@ -14,9 +14,11 @@ exitStationRouter.post('/exit-station', async (req, res) => {
             return res.status(400).json({ error: "Invalid Station Name" });
         }
         if (ticket.isValid < now) {
+            ticket.status = 'expired';
+            await ticket.save();
             return res.status(400).json({ error: "Ticket has expired" });
         }
-        if (ticket.status !== 'exited' && ticket.status == 'entered' && ticket.status !== 'booked') {
+        if (ticket.status !== 'exited' && ticket.status == 'entered' && ticket.status !== 'booked' && ticket.status !== 'expired') {
             ticket.exitTime = now;
             ticket.status = 'exited';
             ticket.bookingDate = new Date(); // Update booking date to current time

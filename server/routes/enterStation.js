@@ -16,9 +16,11 @@ enterStation.post('/enter-station', async (req, res) => {
 
         }
         if(ticket.isValid < now) {
+            ticket.status = 'expired';
+            await ticket.save();
             return res.status(400).json({error: "Ticket has expired"});
         }
-        if(ticket.status !== 'entered' && ticket.status !== 'exited' && ticket.status == 'booked') {
+        if(ticket.status !== 'entered' && ticket.status !== 'exited' && ticket.status == 'booked' && ticket.status !== 'expired') {
             ticket.entryTime = new Date();
             ticket.status = 'entered';
             await ticket.save();
