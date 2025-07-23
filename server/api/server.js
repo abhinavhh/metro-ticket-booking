@@ -6,7 +6,6 @@ import calculatePrice from '../routes/calculateprice.js';
 import bookTicketRouter from '../routes/bookticket.js';
 import enterStation from '../routes/enterStation.js';
 import exitStationRouter from '../routes/exitStation.js';
-const serverless = require("serverless-http");
 
 const app = express();
 app.use(cors());
@@ -15,6 +14,9 @@ app.use(express.json());
 // const PORT = 5000;
 
 connectDB();
+app.use('/', (req, res) => {
+    res.send('Metro Ticket System API');
+});
 
 app.use('/api', stations);
 
@@ -30,4 +32,4 @@ app.use('/api/tickets', exitStationRouter)
 //     console.log(`Server is running on port ${PORT}`);
 // })
 
-module.exports.handler = serverless(app);
+module.exports = app;
