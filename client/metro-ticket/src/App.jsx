@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // API Service (inline for this example)
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = process.env.BACKEND_URI || 'http://localhost:5000';
 
 const api = {
   get: (url) => fetch(`${API_BASE_URL}${url}`).then(res => res.json()).then(data => {
