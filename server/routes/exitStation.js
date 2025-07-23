@@ -16,8 +16,9 @@ exitStationRouter.post('/exit-station', async (req, res) => {
         if (ticket.isValid < now) {
             return res.status(400).json({ error: "Ticket has expired" });
         }
-        if (ticket.exitTime == null) {
+        if (ticket.status !== 'exited' && ticket.status == 'entered' && ticket.status !== 'booked') {
             ticket.exitTime = now;
+            ticket.status = 'exited';
             ticket.bookingDate = new Date(); // Update booking date to current time
             ticket.isValid = new Date(now.getTime() + 6 * 60 * 60 * 1000); // Extend validity for another 6 hours
             await ticket.save();

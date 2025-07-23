@@ -21,13 +21,15 @@ bookTicketRouter.post('/book', async(req, res) => {
         // Simulate ticket booking logic
         const bookingDate = new Date();
         const isValid = new Date(bookingDate.getTime() + 6 * 60 * 60 * 1000); // Ticket valid for 6 hours
+        const status = 'booked';
         const ticket = new Ticket({
             ticketId: uuid(),
             fromStation,
             toStation,
             price,
             bookingDate, // This would be set when the user exits
-            isValid
+            isValid,
+            status
         })
         await ticket.save();
         
