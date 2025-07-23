@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 // API Service (inline for this example)
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = 'http://localhost:5000/api';
 
 const api = {
-  get: (url) => fetch(`${API_BASE_URL}${url}`).then(res => res.json()),
+  get: (url) => fetch(`${API_BASE_URL}${url}`).then(res => res.json()).then(data => {
+    return data;
+  }),
   post: (url, data) => fetch(`${API_BASE_URL}${url}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -25,10 +27,10 @@ const ticketService = {
     api.post('/tickets/book', { fromStation, toStation }),
   
   enterStation: (ticketId, stationName) => 
-    api.post('/tickets/enter', { ticketId, stationName }),
+    api.post('/tickets/enter-station', { ticketId, stationName }),
   
   exitStation: (ticketId, stationName) => 
-    api.post('/tickets/exit', { ticketId, stationName }),
+    api.post('/tickets/exit-station', { ticketId, stationName }),
   
   getTicketDetails: (ticketId) => 
     api.get(`/tickets/${ticketId}`),
@@ -185,7 +187,7 @@ const TicketBooking = () => {
             <p><strong>To:</strong> {ticket.toStation}</p>
             <p><strong>Price:</strong> ₹{ticket.price}</p>
             <p><strong>Status:</strong> {ticket.status}</p>
-            <p><strong>Expires At:</strong> {new Date(ticket.expiresAt).toLocaleString()}</p>
+            <p><strong>Expires At:</strong> {new Date(ticket.isValid).toLocaleString()}</p>
           </div>
           <button
             onClick={resetForm}
@@ -231,7 +233,12 @@ const StationEntry = () => {
       setLoading(true);
       setError('');
       const response = await ticketService.enterStation(ticketId, stationName);
-      setResult(response);
+      if (response.error) {
+        setError(response.error);
+        setResult(null);
+      } else {
+        setResult(response);
+      }
     } catch (error) {
       console.error('Error entering station:', error);
       setError('Error: ' + error.message);
@@ -298,10 +305,10 @@ const StationEntry = () => {
         <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-md">
           <h3 className="font-semibold mb-2 text-green-800">Entry Successful!</h3>
           <div className="space-y-1 text-sm">
-            <p><strong>Ticket ID:</strong> {result.ticketId}</p>
+            <p><strong>Ticket ID:</strong> {result.ticket.ticketId}</p>
             <p><strong>Status:</strong> {result.status}</p>
-            <p><strong>Entry Time:</strong> {new Date(result.entryTime).toLocaleString()}</p>
-            <p><strong>Valid Until:</strong> {new Date(result.expiresAt).toLocaleString()}</p>
+            <p><strong>Entry Time:</strong> {new Date(result.ticket.entryTime).toLocaleString()}</p>
+            <p><strong>Valid Until:</strong> {new Date(result.ticket.isValid).toLocaleString()}</p>
           </div>
           <button
             onClick={resetForm}
